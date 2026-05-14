@@ -1,0 +1,17 @@
+{
+    "rust-analyzer.cargo.target": "thumbv4t-none-eabi",
+    "rust-analyzer.cargo.buildScripts.overrideCommand": [
+        "cargo", "check", "--target", "thumbv4t-none-eabi",
+        "-Z", "build-std=core,alloc",
+        "--message-format=json"
+    ],
+    "rust-analyzer.check.overrideCommand": [
+        "cargo", "check", "--target", "thumbv4t-none-eabi",
+        "-Z", "build-std=core,alloc",
+        "--message-format=json"
+    ],
+    "rust-analyzer.check.allTargets": false,
+    "rust-analyzer.cargo.extraEnv": {
+        "RUSTFLAGS": "-Clink-arg=-Tlinker.ld"
+    }
+}
