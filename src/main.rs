@@ -16,6 +16,15 @@ extern "C" fn main() -> ! {
             .with_show_bg2(true),
     );
 
-    VIDEO3_VRAM.get(10, 20).unwrap().write(Color::BLUE);
+    let start_col = 10;
+    let start_row = 20;
+    let end_col = start_col + 120;
+    let end_row = start_row + 30;
+    for row in start_row..end_row {
+        for col in start_col..end_col {
+            VIDEO3_VRAM.get(col, row).unwrap().write(Color::BLUE);
+        }
+    }
+
     loop {}
 }
