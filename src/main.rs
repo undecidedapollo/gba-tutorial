@@ -10,21 +10,32 @@ fn panic_handler(_: &core::panic::PanicInfo) -> ! {
 
 #[unsafe(no_mangle)]
 extern "C" fn main() -> ! {
+    DISPSTAT.write(DisplayStatus::new().with_irq_vblank(true));
+    IE.write(IrqBits::VBLANK);
+    IME.write(true);
+
     DISPCNT.write(
         DisplayControl::new()
             .with_video_mode(VideoMode::_3)
             .with_show_bg2(true),
     );
 
-    let start_col = 10;
-    let start_row = 20;
-    let end_col = start_col + 120;
-    let end_row = start_row + 30;
-    for row in start_row..end_row {
-        for col in start_col..end_col {
-            VIDEO3_VRAM.get(col, row).unwrap().write(Color::BLUE);
+    const SCREEN_WIDTH: usize = 240;
+    const SCREEN_HEIGHT: usize = 160;
+
+    let mut col = 0;
+    let mut row = 0;
+
+    loop {
+        VBlankIntrWait();
+        VIDEO3_VRAM.get(col, row).unwrap().write(Color::BLUE);
+        col += 1;
+        if col >= SCREEN_WIDTH {
+            col = 0;
+            row += 1;
+        }
+        if row >= SCREEN_HEIGHT {
+            row = 0;
         }
     }
-
-    loop {}
 }
