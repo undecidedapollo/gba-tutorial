@@ -5,7 +5,17 @@ target = "thumbv4t-none-eabi" # Specify the cpu / system architecture we are tar
 build-std = ["core"] # Specify we only want core
 
 [target.thumbv4t-none-eabi]
-runner = "/Applications/mGBA.app/Contents/MacOS/mGBA"
+# UNCOMMENT THE RUNNER FOR YOUR PLATFORM
+
+# Windows: Point at the installed exe
+# runner = ["C:\\Program Files\\mGBA\\mGBA.exe"]
+
+# MacOS: Point at the executable inside the .app file
+# runner = ["/Applications/mGBA.app/Contents/MacOS/mGBA"]
+
+# Linux: if installed with a package manager
+# runner = ["mgba-qt"]
+
 rustflags = [
     "-Clinker=arm-none-eabi-ld", # uses the ARM linker
     "-Clink-arg=-Tlinker.ld", # sets the link script
